@@ -8,6 +8,7 @@ import (
 	"github.com/aliyun/alibaba-cloud-sdk-go/sdk/responses"
 )
 
+// Pub invokes aliyun `Pub` api
 func Pub(client *sdk.Client, device *Device, msg *Message) (response *responses.CommonResponse, err error)  {
 	request := requests.NewCommonRequest()
 	request.Method = "POST"
