@@ -1,7 +1,7 @@
 package main
 
 import (
-	"youshupai.com/remoteconsole/cmd"
+	"youshupai.com/aliot/cmd"
 )
 
 

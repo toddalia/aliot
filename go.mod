@@ -1,4 +1,4 @@
-module youshupai.com/remoteconsole
+module youshupai.com/aliot
 
 go 1.15
 

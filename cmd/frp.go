@@ -8,7 +8,7 @@ import (
 	"github.com/aliyun/alibaba-cloud-sdk-go/sdk"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	"youshupai.com/remoteconsole/iot"
+	"youshupai.com/aliot/iot"
 )
 
 func exitWithError(err error) {
@@ -16,9 +16,8 @@ func exitWithError(err error) {
 	os.Exit(1)
 }
 
-// startCmd represents the start command
-var startCmd = &cobra.Command{
-	Use:   "start [flags] deviceName",
+var frpCmd = &cobra.Command{
+	Use:   "frp [flags] deviceName",
 	Short: "向树莓派发送指令，启动frp服务",
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) == 0 {
@@ -71,26 +70,26 @@ var startCmd = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(startCmd)
+	rootCmd.AddCommand(frpCmd)
 
 	// Here you will define your flags and configuration settings.
 
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:
-	// startCmd.PersistentFlags().String("foo", "", "A help for foo")
+	// frpCmd.PersistentFlags().String("foo", "", "A help for foo")
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
-	// startCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
-  startCmd.Flags().StringP("server-addr", "a", "", "FRP 服务的地址")
-	startCmd.Flags().StringP("server-port", "p", "", "FRP 服务的端口")
-	startCmd.Flags().StringP("remote-port", "r", "", "FRP 服务的端口")
-	startCmd.Flags().StringP("token", "t", "", "FRP 服务的token")
+	// frpCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+  frpCmd.Flags().StringP("server-addr", "a", "", "FRP 服务的地址")
+	frpCmd.Flags().StringP("server-port", "p", "", "FRP 服务的端口")
+	frpCmd.Flags().StringP("remote-port", "r", "", "FRP 服务的端口")
+	frpCmd.Flags().StringP("token", "t", "", "FRP 服务的token")
 
 	// 保存设置到 viper
-	viper.BindPFlag("server-addr", startCmd.Flags().Lookup("server-addr"))
-	viper.BindPFlag("server-port", startCmd.Flags().Lookup("server-port"))
-	viper.BindPFlag("remote-port", startCmd.Flags().Lookup("remote-port"))
-	viper.BindPFlag("token", startCmd.Flags().Lookup("token"))
+	viper.BindPFlag("server-addr", frpCmd.Flags().Lookup("server-addr"))
+	viper.BindPFlag("server-port", frpCmd.Flags().Lookup("server-port"))
+	viper.BindPFlag("remote-port", frpCmd.Flags().Lookup("remote-port"))
+	viper.BindPFlag("token", frpCmd.Flags().Lookup("token"))
 	viper.SetDefault("server-addr", "139.224.106.207")
 }

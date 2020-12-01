@@ -11,7 +11,7 @@ import (
 var cfgFile string
 
 var rootCmd = &cobra.Command{
-	Use:   "remoteconsole",
+	Use:   "aliot",
 	Short: "树莓派远程调试启动工具",
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
