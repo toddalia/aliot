@@ -1,20 +1,13 @@
 package cmd
 
 import (
-	"errors"
 	"fmt"
-	"os"
 
 	"github.com/aliyun/alibaba-cloud-sdk-go/sdk"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"youshupai.com/aliot/iot"
 )
-
-func exitWithError(err error) {
-	fmt.Println(err)
-	os.Exit(1)
-}
 
 var frpCmd = &cobra.Command{
 	Use:   "frp [flags] deviceName",
@@ -27,29 +20,18 @@ var frpCmd = &cobra.Command{
 
 		var (
 			deviceName = args[0]
-			accessKey = viper.GetString("access-key")
-			accessSecret = viper.GetString("access-secret")
-			region = viper.GetString("region")
-			productKey = viper.GetString("product-key")
 			serverAddr = viper.GetString("server-addr")
 			serverPort = viper.GetString("server-port")
 			remotePort = viper.GetString("remote-port")
 			token = viper.GetString("token")
 		)
 
-		if !(viper.IsSet("access-key") && viper.IsSet("access-secret")) {
-			exitWithError(errors.New("未指定阿里云账户"))
-		}
-
 		device := &iot.Device{
-			Product: iot.Product{
-				ProductKey: productKey,
-				Region: region,
-			},
+			Product: product,
 			Name: deviceName,
 		}
 
-		client, err := sdk.NewClientWithAccessKey(region, accessKey, accessSecret)
+		client, err := sdk.NewClientWithAccessKey(device.Region, aliAccount.AccessKey, aliAccount.AccessSecret)
 		if err != nil {
 			exitWithError(err)
 		}
@@ -91,5 +73,4 @@ func init() {
 	viper.BindPFlag("server-port", frpCmd.Flags().Lookup("server-port"))
 	viper.BindPFlag("remote-port", frpCmd.Flags().Lookup("remote-port"))
 	viper.BindPFlag("token", frpCmd.Flags().Lookup("token"))
-	viper.SetDefault("server-addr", "139.224.106.207")
 }

@@ -6,6 +6,6 @@ type Product struct {
 }
 
 type Device struct {
-	Product
+	*Product
 	Name string
 }

@@ -1,14 +1,21 @@
 package cmd
 
 import (
+	"errors"
 	"fmt"
 	"os"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+	"youshupai.com/aliot/iot"
 )
 
+// 配置文件路径
 var cfgFile string
+// 存储阿里云帐号
+var aliAccount *iot.AliAccount
+// 存储产品名和区域
+var product *iot.Product
 
 var rootCmd = &cobra.Command{
 	Use:   "aliot",
@@ -34,21 +41,10 @@ func init() {
 	// Cobra supports persistent flags, which, if defined here,
 	// will be global for your application.
 	rootCmd.PersistentFlags().StringVarP(&cfgFile, "config", "c", "", "config file (default is config.json)")
-	rootCmd.PersistentFlags().String("access-key", "", "阿里云帐号 AccessKey ID")
-	rootCmd.PersistentFlags().String("access-secret", "", "阿里云帐号 AccessKey Secret")
-	rootCmd.PersistentFlags().String("product-key", "", "物联网产品 ProduceKey")
-	rootCmd.PersistentFlags().String("region", "cn-shanghai", "region ID")
 
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
 	// rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
-
-	// 存储设置到viper
-	viper.BindPFlag("access-key", rootCmd.PersistentFlags().Lookup("access-key"))
-	viper.BindPFlag("access-secret", rootCmd.PersistentFlags().Lookup("access-secret"))
-	viper.BindPFlag("product-key", rootCmd.PersistentFlags().Lookup("product-key"))
-	viper.BindPFlag("region", rootCmd.PersistentFlags().Lookup("region"))
-	viper.SetDefault("region", "cn-shanghai")
 }
 
 // initConfig reads in config file.
@@ -64,13 +60,32 @@ func initConfig() {
 	}
 
 	// If a config file is found, read it in.
-	if err := viper.ReadInConfig(); err != nil {
-    if _, ok := err.(viper.ConfigFileNotFoundError); ok {
-        // Config file not found; ignore error if desired
-    } else {
-			fmt.Printf("Fatal: %s\n", err)
-			fmt.Printf("       config file: %s\n", viper.ConfigFileUsed())
-			os.Exit(1)
-    }
+	err := viper.ReadInConfig();
+	if err != nil {
+		fmt.Printf("Fatal: %s\n", err)
+		fmt.Printf("       config file: %s\n", viper.ConfigFileUsed())
+		os.Exit(1)
+	}
+
+	if !(viper.IsSet("access-key") && viper.IsSet("access-secret")) {
+		exitWithError(errors.New("未指定阿里云账户"))
+	}
+
+	aliAccount = &iot.AliAccount{
+		AccessKey: viper.GetString("access-key"),
+		AccessSecret: viper.GetString("access-secret"),
+	}
+
+	if !viper.IsSet("product-key") {
+		exitWithError(errors.New("未设置 produce-key"))
+	}
+
+	if !viper.IsSet("region") {
+		exitWithError(errors.New("未设置 region"))
+	}
+
+	product = &iot.Product{
+		ProductKey: viper.GetString("product-key"),
+		Region: viper.GetString("region"),
 	}
 }
