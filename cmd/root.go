@@ -12,9 +12,7 @@ import (
 
 // 配置文件路径
 var cfgFile string
-// 存储阿里云帐号
 var aliAccount *iot.AliAccount
-// 存储产品名和区域
 var product *iot.Product
 
 var rootCmd = &cobra.Command{
@@ -68,7 +66,7 @@ func initConfig() {
 	}
 
 	if !(viper.IsSet("access-key") && viper.IsSet("access-secret")) {
-		exitWithError(errors.New("未指定阿里云账户"))
+		exitWithError(errors.New("请在配置文件里设置阿里云账户: access-key, access-secret"))
 	}
 
 	aliAccount = &iot.AliAccount{
@@ -77,11 +75,11 @@ func initConfig() {
 	}
 
 	if !viper.IsSet("product-key") {
-		exitWithError(errors.New("未设置 produce-key"))
+		exitWithError(errors.New("请在配置文件里设置 product-key"))
 	}
 
 	if !viper.IsSet("region") {
-		exitWithError(errors.New("未设置 region"))
+		exitWithError(errors.New("请在配置文件里设置 region"))
 	}
 
 	product = &iot.Product{

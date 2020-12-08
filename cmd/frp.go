@@ -43,7 +43,7 @@ var frpCmd = &cobra.Command{
 			"token": token,
 		})
 
-		response, err := iot.Pub(client, device, message)
+		response, err := iot.PubMessage(client, device, message)
 		if err != nil {
 			exitWithError(err)
 		}

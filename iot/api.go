@@ -8,37 +8,41 @@ import (
 	"github.com/aliyun/alibaba-cloud-sdk-go/sdk/responses"
 )
 
-func buildCommonRequest(client *sdk.Client, region string) *requests.CommonRequest {
+func buildCommonRequest(client *sdk.Client, product *Product) *requests.CommonRequest {
 	request := requests.NewCommonRequest()
 	request.Method = "POST"
 	request.Scheme = "https"
-	request.Domain = fmt.Sprintf("iot.%s.aliyuncs.com", region)
 	request.Version = "2018-01-20"
-	request.QueryParams["RegionId"] = region
+	request.Domain = fmt.Sprintf("iot.%s.aliyuncs.com", product.Region)
+	request.QueryParams["RegionId"] = product.Region
+	request.QueryParams["ProductKey"] = product.ProductKey
 
 	return request
 }
 
-// Pub invokes aliyun `Pub` api
-func Pub(client *sdk.Client, device *Device, msg *Message) (response *responses.CommonResponse, err error)  {
-	request := buildCommonRequest(client, device.Region)
+// Pub 调用阿里云 `Pub` 接口，发送文本消息
+func Pub(client *sdk.Client, device *Device, msg string)  (response *responses.CommonResponse, err error) {
+	request := buildCommonRequest(client, device.Product)
 	request.ApiName = "Pub"
 	request.QueryParams["TopicFullName"] = fmt.Sprintf("/%s/%s/user/request", device.ProductKey, device.Name)
-	request.QueryParams["ProductKey"] = device.ProductKey
-	content, err := msg.EncodedContent()
-	if err != nil {
-		return nil, err
-	}
-	request.QueryParams["MessageContent"] = content
+	request.QueryParams["MessageContent"] = msg
 
 	return client.ProcessCommonRequest(request)
 }
 
+// PubMessage 调用阿里云 `Pub` 接口，向设备发送自定义格式消息
+func PubMessage(client *sdk.Client, device *Device, msg *Message) (response *responses.CommonResponse, err error)  {
+	content, err := msg.EncodedContent()
+	if err != nil {
+		return nil, err
+	}
+	return Pub(client, device, content)
+}
+
 // GetDeviceStatus 返回设备运行状态
 func GetDeviceStatus(client *sdk.Client, device *Device) (response *responses.CommonResponse, err error) {
-	request := buildCommonRequest(client, device.Region)
+	request := buildCommonRequest(client, device.Product)
 	request.ApiName = "GetDeviceStatus"
-	request.QueryParams["ProductKey"] = device.ProductKey
 	request.QueryParams["DeviceName"] = device.Name
 
 	return client.ProcessCommonRequest(request)
@@ -46,9 +50,8 @@ func GetDeviceStatus(client *sdk.Client, device *Device) (response *responses.Co
 
 // QueryDeviceDetail 返回设备详情
 func QueryDeviceDetail(client *sdk.Client, device *Device) (response *responses.CommonResponse, err error) {
-	request := buildCommonRequest(client, device.Region)
+	request := buildCommonRequest(client, device.Product)
 	request.ApiName = "QueryDeviceDetail"
-	request.QueryParams["ProductKey"] = device.ProductKey
 	request.QueryParams["DeviceName"] = device.Name
 
 	return client.ProcessCommonRequest(request)
@@ -56,9 +59,8 @@ func QueryDeviceDetail(client *sdk.Client, device *Device) (response *responses.
 
 // QueryDeviceStatistics 返回在线设备数，设备总数
 func QueryDeviceStatistics(client *sdk.Client, product *Product) (response *responses.CommonResponse, err error) {
-	request := buildCommonRequest(client, product.Region)
+	request := buildCommonRequest(client, product)
 	request.ApiName = "QueryDeviceStatistics"
-	request.QueryParams["ProductKey"] = product.ProductKey
 
 	return client.ProcessCommonRequest(request)
 }
