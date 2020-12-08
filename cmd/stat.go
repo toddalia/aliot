@@ -6,7 +6,7 @@ import (
 
 	"github.com/aliyun/alibaba-cloud-sdk-go/sdk"
 	"github.com/spf13/cobra"
-	"youshupai.com/aliot/iot"
+	"github.com/toddalia/aliot/iot"
 )
 
 // statCmd represents the stat command

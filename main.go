@@ -1,7 +1,7 @@
 package main
 
 import (
-	"youshupai.com/aliot/cmd"
+	"github.com/toddalia/aliot/cmd"
 )
 
 

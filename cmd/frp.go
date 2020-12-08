@@ -6,7 +6,7 @@ import (
 	"github.com/aliyun/alibaba-cloud-sdk-go/sdk"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	"youshupai.com/aliot/iot"
+	"github.com/toddalia/aliot/iot"
 )
 
 var frpCmd = &cobra.Command{

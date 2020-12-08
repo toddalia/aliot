@@ -7,7 +7,7 @@ import (
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	"youshupai.com/aliot/iot"
+	"github.com/toddalia/aliot/iot"
 )
 
 // 配置文件路径

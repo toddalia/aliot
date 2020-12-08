@@ -1,4 +1,4 @@
-module youshupai.com/aliot
+module github.com/toddalia/aliot
 
 go 1.15
 
