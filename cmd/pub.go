@@ -16,15 +16,7 @@ var msgFilePath string
 // pubCmd represents the pub command
 var pubCmd = &cobra.Command{
 	Use:   "pub deviceName",
-	Short: "向设备发送自定义消息。消息内容从标准输入读取",
-	Long: `向设备发送自定义消息。消息内容从标准输入读取，格式为：
-	{
-	  "version" => "1.0",
-	  "type" => "request",
-	  "requestId" => "request ID",
-	  "command" => [命令名称],
-	  "payload" => [payload]
-	}`,
+	Short: "向设备发送消息",
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) == 0 {
 			cmd.Help()
