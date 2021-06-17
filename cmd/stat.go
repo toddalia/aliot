@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/aliyun/alibaba-cloud-sdk-go/sdk"
 	"github.com/spf13/cobra"
 	"github.com/toddalia/aliot/iot"
 )
@@ -14,18 +13,12 @@ var statCmd = &cobra.Command{
 	Use:   "stat",
 	Short: "获取在线设备数量",
 	Run: func(cmd *cobra.Command, args []string) {
-		client, err := sdk.NewClientWithAccessKey(product.Region, aliAccount.AccessKey, aliAccount.AccessSecret)
-		if err != nil {
-			exitWithError(err)
-		}
-
 		response, err := iot.QueryDeviceStatistics(client, product)
 		if err != nil {
 			exitWithError(err)
 		}
 
 		var respJSON iot.Response
-
 		json.Unmarshal([]byte(response.GetHttpContentString()), &respJSON)
 
 		for key, val := range respJSON.Data {

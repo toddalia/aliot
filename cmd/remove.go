@@ -1,17 +1,16 @@
 package cmd
 
 import (
-	"encoding/json"
 	"fmt"
 
 	"github.com/spf13/cobra"
 	"github.com/toddalia/aliot/iot"
 )
 
-// infoCmd represents the info command
-var infoCmd = &cobra.Command{
-	Use:   "info deviceName",
-	Short: "获取设备信息",
+// removeCmd 删除指定的设备
+var removeCmd = &cobra.Command{
+	Use:   "remove deviceName",
+	Short: "删除设备",
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) == 0 {
 			cmd.Help()
@@ -27,23 +26,16 @@ var infoCmd = &cobra.Command{
 			Name: deviceName,
 		}
 
-		response, err := iot.QueryDeviceDetail(client, device)
+		response, err := iot.DeleteDevice(client, device)
 		if err != nil {
 			exitWithError(err)
 		}
-
-		var respJSON iot.Response
-
-		json.Unmarshal([]byte(response.GetHttpContentString()), &respJSON)
-
-		for key, val := range respJSON.Data {
-			fmt.Printf("%s\t%v\n", key, val)
-		}
+		fmt.Print(response.GetHttpContentString())
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(infoCmd)
+	rootCmd.AddCommand(removeCmd)
 
 	// Here you will define your flags and configuration settings.
 

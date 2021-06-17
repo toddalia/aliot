@@ -1,9 +1,9 @@
 package iot
 
-// 阿里云响应格式
+// Response 描述了阿里云响应的格式
 type Response struct {
-	Code string `json:"Code"`
 	Success bool `json:"Success"`
+	Code string `json:"Code"`
 	ErrorMessage string `json:"ErrorMessage"`
 	RequestID string `json:"RequestId"`
 	Data map[string]interface{} `json:"Data"`

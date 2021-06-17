@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"io/ioutil"
 
-	"github.com/aliyun/alibaba-cloud-sdk-go/sdk"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"github.com/toddalia/aliot/iot"
@@ -38,11 +37,6 @@ var pubCmd = &cobra.Command{
 
 		if viper.IsSet("message") {
 			message = viper.GetString("message")
-		}
-
-		client, err := sdk.NewClientWithAccessKey(device.Region, aliAccount.AccessKey, aliAccount.AccessSecret)
-		if err != nil {
-			exitWithError(err)
 		}
 
 		response, err := iot.Pub(client, device, message)

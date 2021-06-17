@@ -3,7 +3,6 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/aliyun/alibaba-cloud-sdk-go/sdk"
 	"github.com/spf13/cobra"
 	"github.com/toddalia/aliot/iot"
 )
@@ -24,11 +23,6 @@ var statusCmd = &cobra.Command{
 		device := &iot.Device{
 			Product: product,
 			Name: deviceName,
-		}
-
-		client, err := sdk.NewClientWithAccessKey(product.Region, aliAccount.AccessKey, aliAccount.AccessSecret)
-		if err != nil {
-			exitWithError(err)
 		}
 
 		response, err := iot.GetDeviceStatus(client, device)

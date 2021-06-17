@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/aliyun/alibaba-cloud-sdk-go/sdk"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"github.com/toddalia/aliot/iot"
@@ -14,6 +15,7 @@ import (
 var cfgFile string
 var aliAccount *iot.AliAccount
 var product *iot.Product
+var client *sdk.Client
 
 var rootCmd = &cobra.Command{
 	Use:   "aliot",
@@ -85,5 +87,10 @@ func initConfig() {
 	product = &iot.Product{
 		ProductKey: viper.GetString("productKey"),
 		Region: viper.GetString("region"),
+	}
+
+	client, err = sdk.NewClientWithAccessKey(product.Region, aliAccount.AccessKey, aliAccount.AccessSecret)
+	if err != nil {
+		exitWithError(err)
 	}
 }

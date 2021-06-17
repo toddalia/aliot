@@ -57,6 +57,16 @@ func QueryDeviceDetail(client *sdk.Client, device *Device) (response *responses.
 	return client.ProcessCommonRequest(request)
 }
 
+// DeleteDevice 删除设备
+// https://help.aliyun.com/document_detail/69281.html
+func DeleteDevice(client *sdk.Client, device *Device) (response *responses.CommonResponse, err error) {
+	request := buildCommonRequest(client, device.Product)
+	request.ApiName = "DeleteDevice"
+	request.QueryParams["DeviceName"] = device.Name
+
+	return client.ProcessCommonRequest(request)
+}
+
 // QueryDeviceStatistics 返回在线设备数，设备总数
 func QueryDeviceStatistics(client *sdk.Client, product *Product) (response *responses.CommonResponse, err error) {
 	request := buildCommonRequest(client, product)

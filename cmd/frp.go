@@ -3,7 +3,6 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/aliyun/alibaba-cloud-sdk-go/sdk"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"github.com/toddalia/aliot/iot"
@@ -29,11 +28,6 @@ var frpCmd = &cobra.Command{
 		device := &iot.Device{
 			Product: product,
 			Name: deviceName,
-		}
-
-		client, err := sdk.NewClientWithAccessKey(device.Region, aliAccount.AccessKey, aliAccount.AccessSecret)
-		if err != nil {
-			exitWithError(err)
 		}
 
 		message := iot.NewMessage("remoteconsole", map[string]string {
