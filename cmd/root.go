@@ -65,17 +65,17 @@ func initConfig() {
 		os.Exit(1)
 	}
 
-	if !(viper.IsSet("access-key") && viper.IsSet("access-secret")) {
-		exitWithError(errors.New("请在配置文件里设置阿里云账户: access-key, access-secret"))
+	if !(viper.IsSet("accessKey") && viper.IsSet("accessSecret")) {
+		exitWithError(errors.New("请在配置文件里设置阿里云账户: accessKey, accessSecret"))
 	}
 
 	aliAccount = &iot.AliAccount{
-		AccessKey: viper.GetString("access-key"),
-		AccessSecret: viper.GetString("access-secret"),
+		AccessKey: viper.GetString("accessKey"),
+		AccessSecret: viper.GetString("accessSecret"),
 	}
 
-	if !viper.IsSet("product-key") {
-		exitWithError(errors.New("请在配置文件里设置 product-key"))
+	if !viper.IsSet("productKey") {
+		exitWithError(errors.New("请在配置文件里设置 productKey"))
 	}
 
 	if !viper.IsSet("region") {
@@ -83,7 +83,7 @@ func initConfig() {
 	}
 
 	product = &iot.Product{
-		ProductKey: viper.GetString("product-key"),
+		ProductKey: viper.GetString("productKey"),
 		Region: viper.GetString("region"),
 	}
 }

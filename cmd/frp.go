@@ -20,9 +20,9 @@ var frpCmd = &cobra.Command{
 
 		var (
 			deviceName = args[0]
-			serverAddr = viper.GetString("server-addr")
-			serverPort = viper.GetString("server-port")
-			remotePort = viper.GetString("remote-port")
+			serverAddr = viper.GetString("serverAddr")
+			serverPort = viper.GetString("serverPort")
+			remotePort = viper.GetString("remotePort")
 			token = viper.GetString("token")
 		)
 
@@ -63,14 +63,14 @@ func init() {
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	// frpCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
-  frpCmd.Flags().StringP("server-addr", "a", "", "FRP 服务的地址")
-	frpCmd.Flags().StringP("server-port", "p", "", "FRP 服务的端口")
-	frpCmd.Flags().StringP("remote-port", "r", "", "FRP 服务的端口")
+  frpCmd.Flags().StringP("serverAddr", "a", "", "FRP 服务的地址")
+	frpCmd.Flags().StringP("serverPort", "p", "", "FRP 服务的端口")
+	frpCmd.Flags().StringP("remotePort", "r", "", "FRP 服务的端口")
 	frpCmd.Flags().StringP("token", "t", "", "FRP 服务的token")
 
 	// 保存设置到 viper
-	viper.BindPFlag("server-addr", frpCmd.Flags().Lookup("server-addr"))
-	viper.BindPFlag("server-port", frpCmd.Flags().Lookup("server-port"))
-	viper.BindPFlag("remote-port", frpCmd.Flags().Lookup("remote-port"))
+	viper.BindPFlag("serverAddr", frpCmd.Flags().Lookup("serverAddr"))
+	viper.BindPFlag("serverPort", frpCmd.Flags().Lookup("serverPort"))
+	viper.BindPFlag("remotePort", frpCmd.Flags().Lookup("remotePort"))
 	viper.BindPFlag("token", frpCmd.Flags().Lookup("token"))
 }

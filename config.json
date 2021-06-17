@@ -1,10 +1,10 @@
 {
-  "access-key": "",
-  "access-secret": "",
-  "product-key": "",
+  "accessKey": "",
+  "accessSecret": "",
+  "productKey": "",
   "region": "cn-shanghai",
-  "server-addr": "",
-  "server-port": "",
+  "serverAddr": "",
+  "serverPort": "",
   "token": "",
-  "remote-port": ""
+  "remotePort": ""
 }
