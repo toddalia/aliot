@@ -13,7 +13,6 @@ import (
 
 // 配置文件路径
 var cfgFile string
-var aliAccount *iot.AliAccount
 var product *iot.Product
 var client *sdk.Client
 
@@ -71,7 +70,7 @@ func initConfig() {
 		exitWithError(errors.New("请在配置文件里设置阿里云账户: accessKey, accessSecret"))
 	}
 
-	aliAccount = &iot.AliAccount{
+	aliAccount := &iot.AliAccount{
 		AccessKey: viper.GetString("accessKey"),
 		AccessSecret: viper.GetString("accessSecret"),
 	}
