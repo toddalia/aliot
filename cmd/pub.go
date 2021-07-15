@@ -25,7 +25,10 @@ var pubCmd = &cobra.Command{
 		var deviceName = args[0]
 		var message string
 
-		device := &iot.Device{product, deviceName}
+		device := &iot.Device{
+			Product: product,
+			Name: deviceName,
+		}
 
 		if msgFilePath != "" {
 			content, err := ioutil.ReadFile(msgFilePath)

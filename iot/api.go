@@ -1,6 +1,7 @@
 package iot
 
 import (
+	"encoding/base64"
 	"fmt"
 
 	"github.com/aliyun/alibaba-cloud-sdk-go/sdk"
@@ -22,17 +23,19 @@ func buildCommonRequest(client *sdk.Client, product *Product) *requests.CommonRe
 
 // Pub 调用阿里云 `Pub` 接口，发送文本消息
 func Pub(client *sdk.Client, device *Device, msg string)  (response *responses.CommonResponse, err error) {
+	encodedMsg := base64.StdEncoding.EncodeToString([]byte(msg))
+
 	request := buildCommonRequest(client, device.Product)
 	request.ApiName = "Pub"
 	request.QueryParams["TopicFullName"] = fmt.Sprintf("/%s/%s/user/request", device.ProductKey, device.Name)
-	request.QueryParams["MessageContent"] = msg
+	request.QueryParams["MessageContent"] = encodedMsg
 
 	return client.ProcessCommonRequest(request)
 }
 
 // PubMessage 调用阿里云 `Pub` 接口，向设备发送自定义格式消息
 func PubMessage(client *sdk.Client, device *Device, msg *Message) (response *responses.CommonResponse, err error)  {
-	content, err := msg.EncodedContent()
+	content, err := msg.ToJson()
 	if err != nil {
 		return nil, err
 	}

@@ -1,7 +1,6 @@
 package iot
 
 import (
-	"encoding/base64"
 	"encoding/json"
 
 	uuid "github.com/satori/go.uuid"
@@ -16,13 +15,13 @@ type Message struct {
 	Payload map[string]string `json:"payload"`
 }
 
-// EncodedContent encodes message as base64 string
-func (msg *Message) EncodedContent() (string, error) {
-	str, err := json.Marshal(msg)
+// ToJson encodes message as json string
+func (msg *Message) ToJson() (string, error) {
+	jsonStr, err := json.Marshal(msg)
 	if err != nil {
 		return "", err
 	}
-	return base64.StdEncoding.EncodeToString([]byte(string(str))), nil
+	return string(jsonStr), nil
 }
 
 // NewMessage build a message from command and its payload
